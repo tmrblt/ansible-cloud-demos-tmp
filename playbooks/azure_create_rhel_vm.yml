@@ -11,7 +11,7 @@
     vnet_name: "{{ vnet_name | default('controller-vnet') }}"
     subnet_name: "{{ subnet_name | default('default') }}"
     network_sec_group_name: "{{ network_sec_group_name | default('controler-nsg') }}"
-    rhel_vm_name: "{{ rhel_vm_name | default('RHEL-ansible') }}"
+    rhel_vm_name: "{{ rhel_vm_name | default('eda') }}"
     rhel_vm_size: "{{ rhel_vm_size | default('Standard_B2as_v2') }}"
     rhel_vm_sku: "{{ rhel_vm_sku | default('ntg_rhel_8_2') }}"
     rhel_public_ip_name: "{{ rhel_public_ip_name | default('rhel_demo_ip') }}"
@@ -93,7 +93,12 @@
         admin_username: "{{ rhel_admin_user | default('ansible') }}"
         admin_password: "{{ rhel_admin_password }}"
         network_interfaces: "{{ rhel_nic_name }}"
+        state: present
+        started: true
         ssh_password_enabled: true
+        ssh_public_keys:
+          - path: /home/ansible/.ssh/authorized_keys
+            key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCffwOMWCjomX/ERSmbiFq6+i8gNL+A4sXB5vKqD1yCp6AEqsCD42Ag7x1NJ1i8hoPoebZxgWHI8PB0vih4tM0HnI3EKFNM6mKfb7Yue4su5ff/X81wcpVvt3Lk7CjGg16zZ0CQdn48zjmQK/NOosP0hzzoznnx8J/ClF2AauJanJQkoJsG7z9VDe0wqrZeDFb3r1Zx98npFGYJEwjSE9/LikAdVs9Ke8Z2kv1t/AwpO36VoHluz4j9VsqkO4sdKg1rPAu1IeKlqZXHCEFS49ZbWv3WbInvOtT1IbJk0iqGTWHY+2RGS1wFswzFPLfWG3YQFbwIwhyOGhZmxClQgBjKpY+NUleHXtwE3+T59+mBgGtzyMmmACZcBQG1JyXjA/FEkqR188CKFuOvEdlsI4zs0bcfQCWIHBNwmjX6bA39uozsNbn/bgZyC7KXk+2bmAaq6hn2cEsZUD+oDSVS0lcIW+GWIMuHFnjAQOvKYni2t7cIkKiciJ8bH5bwGt1aVnM="
         tags:
           "name": "{{ rhel_vm_name }}"
           "demo": "true"
