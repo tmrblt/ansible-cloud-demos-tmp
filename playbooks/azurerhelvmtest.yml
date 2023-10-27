@@ -99,7 +99,7 @@
           "name": "{{ rhel_vm_name }}"
           "demo": "true"
           "os": "linux"
-          "username": "{{ rhel_admin_user }}"
+          "username": "{{ admin_user }}"
         image:
           offer: ntg_rhel_8_2
           publisher: ntegralinc1586961136942
