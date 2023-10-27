@@ -104,3 +104,5 @@
           publisher: ntegralinc1586961136942
           sku: "{{ rhel_vm_sku | default('ntg_rhel_8_2') }}"
           version: latest
+        security_profile:
+          security_type: Standard
