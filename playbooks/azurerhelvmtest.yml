@@ -91,6 +91,8 @@
         managed_disk_type: Standard_LRS
         admin_username: "{{ admin_user }}"
         admin_password: "{{ admin_password }}"
+        state: present
+        started: true
         security_profile:
           uefi_settings:
             secure_boot_enabled: True
