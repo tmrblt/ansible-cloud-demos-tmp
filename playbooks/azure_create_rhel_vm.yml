@@ -4,28 +4,28 @@
   connection: local
   gather_facts: false
   vars:
-    resource_group_name: "{{ resource_group_name | default('openenv-d8ghz') }}"
-    region: "{{ region | default('eastus') }}"
-    vnet_cidr: "{{ vnet_cidr | default('10.0.0.0/16') }}"
-    subnet_cidr: "{{ subnet_cidr | default('10.0.0.0/24') }}"
-    vnet_name: "{{ vnet_name | default('controller-vnet') }}"
-    subnet_name: "{{ subnet_name | default('default') }}"
-    network_sec_group_name: "{{ network_sec_group_name | default('controler-nsg') }}"
-    rhel_vm_name: "{{ rhel_vm_name | default('eda') }}"
-    rhel_vm_size: "{{ rhel_vm_size | default('Standard_B2as_v2') }}"
-    rhel_vm_sku: "{{ rhel_vm_sku | default('ntg_rhel_8_2') }}"
-    rhel_public_ip_name: "{{ rhel_public_ip_name | default('rhel_demo_ip') }}"
-    rhel_nic_name: "{{ rhel_nic_name | default('rhel_demo_nic') }}"
-    rhel_admin_user: "{{ rhel_admin_user | default('ansible') }}"
-    rhel_admin_password: "{{ rhel_admin_password | default('RedHatAnsible123!') }}"
-    survey_public_ip: "{{ survey_public_ip | default('True') }}"
+    resource_group_name: openenv-d8ghz
+    region: eastus
+    vnet_cidr: '10.0.0.0/16'
+    subnet_cidr: '10.0.0.0/24'
+    vnet_name: 'controller-vnet'
+    subnet_name: 'default'
+    network_sec_group_name: 'controler-nsg'
+    vm_name: 'eda'
+    vm_size: 'Standard_B2as_v2'
+    vm_sku: 'ntg_rhel_8_2'
+    public_ip_name: "{{ vm_name}}"'_public_ip'
+    nic_name: 'demo_nic'
+    admin_user: 'ansible'
+    admin_password: 'Passw0rd!'
+    survey_public_ip: 'True'
   tasks:
 
     - name: Create public IP address
       azure.azcollection.azure_rm_publicipaddress:
         resource_group: "{{ resource_group_name }}"
         allocation_method: Static
-        name: "{{ rhel_public_ip_name }}"
+        name: "{{ public_ip_name }}"
       register: output_ip_address
       #when: survey_public_ip == "True"
 
@@ -68,7 +68,7 @@
 #    - name: Create virtual network interface card
 #      azure.azcollection.azure_rm_networkinterface:
 #        resource_group: "{{ resource_group_name }}"
-#        name: "{{ rhel_nic_name }}"
+#        name: "{{ nic_name }}"
 #        virtual_network: "{{ vnet_name }}"
 #        subnet: "{{ subnet_name }}"
 #        security_group: "{{ network_sec_group_name }}"
@@ -77,22 +77,22 @@
     - name: Create virtual network interface card
       azure.azcollection.azure_rm_networkinterface:
         resource_group: "{{ resource_group_name }}"
-        name: "{{ rhel_nic_name }}"
+        name: "{{ nic_name }}"
         virtual_network: "{{ vnet_name }}"
         subnet: "{{ subnet_name }}"
-        public_ip_name: "{{ rhel_public_ip_name }}"
+        public_ip_name: "{{ public_ip_name }}"
         security_group: "{{ network_sec_group_name }}"
       when: survey_public_ip == "True"
 
     - name: Create VM
       azure.azcollection.azure_rm_virtualmachine:
         resource_group: "{{ resource_group_name }}"
-        name: "{{ rhel_vm_name }}"
+        name: "{{ vm_name }}"
         managed_disk_type: "Standard_LRS"
-        vm_size: "{{ rhel_vm_size }}"
-        admin_username: "{{ rhel_admin_user | default('ansible') }}"
-        admin_password: "{{ rhel_admin_password }}"
-        network_interfaces: "{{ rhel_nic_name }}"
+        vm_size: "{{ vm_size }}"
+        admin_username: "{{ admin_user | default('ansible') }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: "{{ nic_name }}"
         state: present
         started: true
         ssh_password_enabled: true
@@ -100,14 +100,14 @@
           - path: /home/ansible/.ssh/authorized_keys
             key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCffwOMWCjomX/ERSmbiFq6+i8gNL+A4sXB5vKqD1yCp6AEqsCD42Ag7x1NJ1i8hoPoebZxgWHI8PB0vih4tM0HnI3EKFNM6mKfb7Yue4su5ff/X81wcpVvt3Lk7CjGg16zZ0CQdn48zjmQK/NOosP0hzzoznnx8J/ClF2AauJanJQkoJsG7z9VDe0wqrZeDFb3r1Zx98npFGYJEwjSE9/LikAdVs9Ke8Z2kv1t/AwpO36VoHluz4j9VsqkO4sdKg1rPAu1IeKlqZXHCEFS49ZbWv3WbInvOtT1IbJk0iqGTWHY+2RGS1wFswzFPLfWG3YQFbwIwhyOGhZmxClQgBjKpY+NUleHXtwE3+T59+mBgGtzyMmmACZcBQG1JyXjA/FEkqR188CKFuOvEdlsI4zs0bcfQCWIHBNwmjX6bA39uozsNbn/bgZyC7KXk+2bmAaq6hn2cEsZUD+oDSVS0lcIW+GWIMuHFnjAQOvKYni2t7cIkKiciJ8bH5bwGt1aVnM="
         tags:
-          "name": "{{ rhel_vm_name }}"
+          "name": "{{ vm_name }}"
           "demo": "true"
           "os": "linux"
-          "username": "{{ rhel_admin_user }}"
+          "username": "{{ admin_user }}"
         image:
           offer: ntg_rhel_8_2
           publisher: ntegralinc1586961136942
-          sku: "{{ rhel_vm_sku | default('ntg_rhel_8_2') }}"
+          sku: "{{ vm_sku | default('ntg_rhel_8_2') }}"
           version: latest
         security_profile:
           security_type: Standard
