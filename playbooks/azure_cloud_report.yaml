@@ -1,0 +1,17 @@
+---
+- name: retrieve info 
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: load retrieve info role
+      include_role:
+        name: "../roles/azure_retrieve_info"
+
+- name: build report with facts
+  hosts: report-server
+  gather_facts: true
+  tasks:
+
+    - name: build a report
+      include_role:
+        name: "../roles/azure_build_report"
