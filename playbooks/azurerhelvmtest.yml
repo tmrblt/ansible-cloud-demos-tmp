@@ -17,7 +17,7 @@
     rhel_public_ip_name: "rhel_demo_ip"
     rhel_nic_name: "rhel_demo_nic"
     admin_user: "ansible"
-    admin_password: "redhat"
+    admin_password: "Passw0rd!"
     survey_public_ip: "True"
   tasks:
     - name: Create public IP address
