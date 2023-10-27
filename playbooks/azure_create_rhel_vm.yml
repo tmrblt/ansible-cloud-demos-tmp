@@ -20,23 +20,6 @@
     rhel_admin_password: "{{ rhel_admin_password | default('RedHatAnsible123!') }}"
     survey_public_ip: "{{ survey_public_ip | default('True') }}"
   tasks:
-    - name: Create resource group
-      azure.azcollection.azure_rm_resourcegroup:
-        name: "{{ resource_group_name }}"
-        location: "{{ region }}"
-
-    - name: Create virtual network
-      azure.azcollection.azure_rm_virtualnetwork:
-        resource_group: "{{ resource_group_name }}"
-        name: "{{ vnet_name }}"
-        address_prefixes: "{{ vnet_cidr }}"
-
-    - name: Add subnet
-      azure.azcollection.azure_rm_subnet:
-        resource_group: "{{ resource_group_name }}"
-        name: "{{ subnet_name }}"
-        address_prefix: "{{ subnet_cidr }}"
-        virtual_network: "{{ vnet_name }}"
 
     - name: Create public IP address
       azure.azcollection.azure_rm_publicipaddress:
