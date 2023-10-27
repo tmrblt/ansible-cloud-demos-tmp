@@ -11,7 +11,7 @@
     vnet_name: "controller-vnet"
     subnet_name: "default"
     network_sec_group_name: "controler-nsg"
-    rhel_vm_name: "test-ansible"
+    rhel_vm_name: "test-ansible-1"
     rhel_vm_size: "Standard_B2as_v2"
     rhel_vm_sku: "ntg_rhel_8_2"
     rhel_public_ip_name: "rhel_demo_ip"
@@ -82,27 +82,6 @@
         public_ip_name: "{{ rhel_public_ip_name }}"
         security_group: "{{ network_sec_group_name }}"
       when: survey_public_ip == "True"
-
-    - name: Create a VM with security profile
-      azure_rm_virtualmachine:
-        resource_group: "{{ resource_group_name }}"  
-        name: "{{ rhel_vm_name }}"
-        vm_size: Standard_D4s_v3
-        managed_disk_type: Standard_LRS
-        admin_username: "{{ admin_user }}"
-        admin_password: "{{ admin_password }}"
-        state: present
-        started: true
-        ssh_public_keys:
-          - path: /home/ansible/.ssh/authorized_keys
-            key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCffwOMWCjomX/ERSmbiFq6+i8gNL+A4sXB5vKqD1yCp6AEqsCD42Ag7x1NJ1i8hoPoebZxgWHI8PB0vih4tM0HnI3EKFNM6mKfb7Yue4su5ff/X81wcpVvt3Lk7CjGg16zZ0CQdn48zjmQK/NOosP0hzzoznnx8J/ClF2AauJanJQkoJsG7z9VDe0wqrZeDFb3r1Zx98npFGYJEwjSE9/LikAdVs9Ke8Z2kv1t/AwpO36VoHluz4j9VsqkO4sdKg1rPAu1IeKlqZXHCEFS49ZbWv3WbInvOtT1IbJk0iqGTWHY+2RGS1wFswzFPLfWG3YQFbwIwhyOGhZmxClQgBjKpY+NUleHXtwE3+T59+mBgGtzyMmmACZcBQG1JyXjA/FEkqR188CKFuOvEdlsI4zs0bcfQCWIHBNwmjX6bA39uozsNbn/bgZyC7KXk+2bmAaq6hn2cEsZUD+oDSVS0lcIW+GWIMuHFnjAQOvKYni2t7cIkKiciJ8bH5bwGt1aVnM="
-        image:
-          offer: 0001-com-ubuntu-server-jammy
-          publisher: Canonical
-          sku: 22_04-lts-gen2
-          version: latest
-        security_profile:
-          security_type: Standard
 
     - name: Create VM
       azure.azcollection.azure_rm_virtualmachine:
