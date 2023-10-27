@@ -93,7 +93,7 @@
         admin_username: "{{ admin_user | default('ansible') }}"
         admin_password: "{{ admin_password }}"
         network_interfaces: "{{ nic_name }}"
-        state: present
+        state: absent
         started: true
         ssh_password_enabled: true
         ssh_public_keys:
