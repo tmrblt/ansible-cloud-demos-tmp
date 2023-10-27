@@ -76,8 +76,6 @@
           - auto_delete: 'true'
             interface: NVME
             type: SCRATCH
-            initialize_params:
-              disk_type: local-ssd
         labels:
           environment: production
         network_interfaces:
