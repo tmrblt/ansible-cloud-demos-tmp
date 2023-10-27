@@ -14,7 +14,7 @@
     vm_name: 'eda'
     vm_size: 'Standard_B2as_v2'
     vm_sku: 'ntg_rhel_8_2'
-    public_ip_name: "{{ vm_name}}"'_public_ip'
+    public_ip_name: "{{ vm_name}}" '_public_ip'
     nic_name: 'demo_nic'
     admin_user: 'ansible'
     admin_password: 'Passw0rd!'
