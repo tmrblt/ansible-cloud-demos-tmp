@@ -16,8 +16,8 @@
     rhel_vm_sku: "ntg_rhel_8_2"
     rhel_public_ip_name: "rhel_demo_ip"
     rhel_nic_name: "rhel_demo_nic"
-    rhel_admin_user: "rheluser"
-    rhel_admin_password: "RedHatAnsible123!"
+    admin_user: "ansible"
+    admin_password: "redhat"
     survey_public_ip: "True"
   tasks:
     - name: Create public IP address
@@ -89,8 +89,8 @@
         name: "{{ rhel_vm_name }}"
         vm_size: Standard_D4s_v3
         managed_disk_type: Standard_LRS
-        admin_username: "{{ ansible }}"
-        admin_password: "{{ redhat }}"
+        admin_username: "{{ admin_user }}"
+        admin_password: "{{ admin_password }}"
         security_profile:
           uefi_settings:
             secure_boot_enabled: True
@@ -112,8 +112,8 @@
         name: "{{ rhel_vm_name }}"
         managed_disk_type: "Standard_LRS"
         vm_size: "{{ rhel_vm_size }}"
-        admin_username: "{{ rhel_admin_user }}"
-        admin_password: "{{ rhel_admin_password }}"
+        admin_username: "{{ admin_user }}"
+        admin_password: "{{ admin_password }}"
         network_interfaces: "{{ rhel_nic_name }}"
         ssh_password_enabled: true
         state: present
