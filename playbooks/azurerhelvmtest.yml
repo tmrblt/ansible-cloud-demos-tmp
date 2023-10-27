@@ -11,7 +11,7 @@
     vnet_name: "controller-vnet"
     subnet_name: "default"
     network_sec_group_name: "controler-nsg"
-    rhel_vm_name: "RHEL-ansible"
+    rhel_vm_name: "test-ansible"
     rhel_vm_size: "Standard_B2as_v2"
     rhel_vm_sku: "ntg_rhel_8_2"
     rhel_public_ip_name: "rhel_demo_ip"
