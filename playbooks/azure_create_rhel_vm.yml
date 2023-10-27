@@ -15,7 +15,7 @@
     vm_size: 'Standard_B2as_v2'
     vm_sku: 'ntg_rhel_8_2'
     public_ip_name: "{{ vm_name }}_public_ip"
-    nic_name: "{{ vm_name }}_nic'
+    nic_name: "{{ vm_name }}_nic"
     admin_user: 'ansible'
     admin_password: 'Passw0rd!'
     survey_public_ip: 'True'
