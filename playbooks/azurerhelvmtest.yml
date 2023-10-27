@@ -93,7 +93,8 @@
         admin_password: "{{ rhel_admin_password }}"
         network_interfaces: "{{ rhel_nic_name }}"
         ssh_password_enabled: true
-        state: started
+        state: present
+        started: true
         tags:
           "name": "{{ rhel_vm_name }}"
           "demo": "true"
