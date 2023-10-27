@@ -35,7 +35,7 @@
         name: instancenet
         region: us-east1
         network: "{{ network }}"
-        ip_cidr_range: 172.16.0.0/16
+        ip_cidr_range: 172.16.1.0/24
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
         state: present
