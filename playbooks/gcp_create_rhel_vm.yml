@@ -84,7 +84,7 @@
           environment: production
         network_interfaces:
           - network: 
-            selfLink: global/networks/default
+              selfLink: global/networks/default
         zone: "{{ gcp_zone }}"
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
