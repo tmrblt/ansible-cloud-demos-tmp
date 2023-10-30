@@ -44,12 +44,12 @@
 
     - name: Create an IPv4 public IP address for vm
       google.cloud.gcp_compute_address:
-        name: vm_public_ip
+        name: "{{ vm_name }}publicip"
         region: "{{ gcp_region }}"
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
         state: present
-      register: vm_public_ip
+      register: publicip
     
     - name: Create a firewall rule to allow SSH
       google.cloud.gcp_compute_firewall:
@@ -86,7 +86,7 @@
           - network: "{{ network }}"
             access_configs:
               - name: External NAT
-                nat_ip: "{{ vm_public_ip }}"
+                nat_ip: "{{ publicip }}"
                 type: ONE_TO_ONE_NAT
             subnetwork: "{{ subnet }}"
         zone: "{{ gcp_zone }}"
