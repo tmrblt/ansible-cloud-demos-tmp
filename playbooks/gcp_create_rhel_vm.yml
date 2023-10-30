@@ -9,7 +9,7 @@
     gcp_region: us-east1  
     vm_name: 'test'
     network_name: "demo-network"
-    subnet-name: "demo-subnet"
+    subnet_name: "demo-subnet"
   tasks:
     - name: Create a disk
       google.cloud.gcp_compute_disk:
