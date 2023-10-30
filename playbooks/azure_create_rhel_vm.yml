@@ -33,7 +33,7 @@
     - name: Dump public IP for VM which will be created
       debug:
         msg: "The public IP is {{ output_ip_address.state.ip_address }}"
-      #when: survey_public_ip == "True"
+      when: survey_public_ip == "True"
 
     - name: Set Stat for Ansible Controller
       set_stats:
