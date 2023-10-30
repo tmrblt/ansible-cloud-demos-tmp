@@ -55,7 +55,7 @@
       google.cloud.gcp_compute_firewall:
         name: access_rules
         allowed:
-          - ip_prptpcol: icmp
+          - ip_protocol: icmp
           - ip_protocol: tcp
             ports:
               - '22'
