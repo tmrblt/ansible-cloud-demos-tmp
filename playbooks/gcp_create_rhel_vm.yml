@@ -4,22 +4,23 @@
   connection: local
   gather_facts: false
   vars:
-    gcp_project:  openenv-xqbbv
+    gcp_project: openenv-r2rg7
     gcp_zone: us-east1-b
     gcp_region: us-east1  
     vm_name: 'test'
-    network_name: "{{ vm_name }}-gcp-network"
+    network_name: "demo-network"
+    subnet-name: "demo-subnet"
   tasks:
-    - name: Create a disk mapped from a RHEL-8 image for rhel1
+    - name: Create a disk
       google.cloud.gcp_compute_disk:
-        name: "{{ vm_name }}"
+        name: "disk_{{ vm_name }}"
         size_gb: 50
         source_image: "projects/rhel-cloud/global/images/rhel-8-v20231010"
         zone: "{{ gcp_zone }}"
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
         state: present
-      register: diskrhel1
+      register: disk
 
     - name: Create a Google Virtual Private Cloud (VPC) network
       google.cloud.gcp_compute_network:
@@ -29,22 +30,32 @@
         auth_kind: serviceaccount
         state: present
       register: network
-
+      
     - name: Create a subnetwork
       google.cloud.gcp_compute_subnetwork:
-        name: instancenet
+        name: "{{ subnet_name }}"
         region: us-east1
         network: "{{ network }}"
-        ip_cidr_range: 172.16.1.0/24
+        ip_cidr_range: 10.0.0.0/24
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
         state: present
-      register: vpcsubnet
+      register: subnet
 
+    - name: Create an IPv4 public IP address for vm
+      google.cloud.gcp_compute_address:
+        name: vm_public_ip
+        region: "{{ gcp_region }}"
+        project: "{{ gcp_project }}"
+        auth_kind: serviceaccount
+        state: present
+      register: vm_public_ip
+    
     - name: Create a firewall rule to allow SSH
       google.cloud.gcp_compute_firewall:
-        name: allowssh
+        name: access_rules
         allowed:
+          - ip_prptpcol: icmp
           - ip_protocol: tcp
             ports:
               - '22'
@@ -54,25 +65,16 @@
         network: "{{ network }}"
         auth_kind: serviceaccount
         state: present
-      register: sshallowed
+      register: firewall_rules
 
-    - name: Create an IPv4 public IP address for rhel1
-      google.cloud.gcp_compute_address:
-        name: rhel1ip
-        region: "{{ gcp_region }}"
-        project: "{{ gcp_project }}"
-        auth_kind: serviceaccount
-        state: present
-      register: rhel1ip
-
-    - name: Create the rhel1 VM instances
+    - name: Create the VM instances
       google.cloud.gcp_compute_instance:
-        name: rhel1
+        name: "{{ vm_name }}"
         machine_type: e2-standard-4
         disks:
           - auto_delete: 'true'
             boot: 'true'
-            source: "{{ diskrhel1 }}"
+            source: "{{ disk }}"
           - auto_delete: 'true'
             interface: NVME
             type: SCRATCH
@@ -84,9 +86,9 @@
           - network: "{{ network }}"
             access_configs:
               - name: External NAT
-                nat_ip: "{{ rhel1ip }}"
+                nat_ip: "{{ vm_public_ip }}"
                 type: ONE_TO_ONE_NAT
-            subnetwork: "{{ vpcsubnet }}"
+            subnetwork: "{{ subnet }}"
         zone: "{{ gcp_zone }}"
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
