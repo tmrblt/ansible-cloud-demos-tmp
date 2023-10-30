@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars:
-    resource_group_name: openenv-d8ghz
+    resource_group_name: openenv-blf7v
     region: eastus
     vnet_cidr: '10.0.0.0/16'
     subnet_cidr: '10.0.0.0/24'
