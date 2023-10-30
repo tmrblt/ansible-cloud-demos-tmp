@@ -13,7 +13,7 @@
   tasks:
     - name: Create a disk
       google.cloud.gcp_compute_disk:
-        name: "disk_{{ vm_name }}"
+        name: "disk{{ vm_name }}"
         size_gb: 50
         source_image: "projects/rhel-cloud/global/images/rhel-8-v20231010"
         zone: "{{ gcp_zone }}"
