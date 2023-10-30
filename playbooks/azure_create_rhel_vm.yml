@@ -81,8 +81,8 @@
         resource_group: "{{ resource_group_name }}"
         name: "{{ nic_name }}"
         virtual_network:
-          - name: "{{ vnet_name }}"
-          - resource_group: "{{ resource_group_name_network }}"
+          name: "{{ vnet_name }}"
+          resource_group: "{{ resource_group_name_network }}"
         subnet: "{{ subnet_name }}"
         public_ip_name: "{{ public_ip_name }}"
         security_group: "{{ network_sec_group_name }}"
