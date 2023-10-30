@@ -83,12 +83,8 @@
         labels:
           environment: production
         network_interfaces:
-          - network: "{{ network }}"
-            access_configs:
-              - name: External NAT
-                nat_ip: "{{ publicip }}"
-                type: ONE_TO_ONE_NAT
-            subnetwork: "{{ subnet }}"
+          - network: 
+            selfLink: global/networks/default
         zone: "{{ gcp_zone }}"
         project: "{{ gcp_project }}"
         auth_kind: serviceaccount
