@@ -5,6 +5,7 @@
   gather_facts: false
   vars:
     resource_group_name: openenv-blf7v
+    resource_group_name_network: rg-network
     region: eastus
     vnet_cidr: '10.0.0.0/16'
     subnet_cidr: '10.0.0.0/24'
@@ -68,7 +69,7 @@
 
     - name: Create virtual network interface card
       azure.azcollection.azure_rm_networkinterface:
-        resource_group: "{{ resource_group_name }}"
+        resource_group: "{{ resource_group_name_network }}"
         name: "{{ nic_name }}"
         virtual_network: "{{ vnet_name }}"
         subnet: "{{ subnet_name }}"
