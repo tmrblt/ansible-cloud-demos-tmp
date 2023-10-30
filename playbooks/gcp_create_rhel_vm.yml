@@ -8,7 +8,7 @@
     gcp_zone: us-east1-b
     gcp_region: us-east1  
     vm_name: 'test'
-    network_name: "demo-network"
+    network_name: "demo-vpc"
     subnet_name: "demo-subnet"
   tasks:
     - name: Create a disk
