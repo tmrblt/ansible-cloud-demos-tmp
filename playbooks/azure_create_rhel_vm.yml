@@ -11,7 +11,7 @@
     vnet_name: 'ctl-vnet'
     subnet_name: 'default'
     network_sec_group_name: "{{ vm_name }}_nsg"
-    vm_name: 'eda'
+    vm_name: 'test'
     vm_size: 'Standard_B2as_v2'
     vm_sku: 'ntg_rhel_8_2'
     public_ip_name: "{{ vm_name }}_public_ip"
