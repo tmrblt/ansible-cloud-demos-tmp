@@ -8,7 +8,7 @@
     region: eastus
     vnet_cidr: '10.0.0.0/16'
     subnet_cidr: '10.0.0.0/24'
-    vnet_name: 'controller-vnet'
+    vnet_name: 'ctl-vnet'
     subnet_name: 'default'
     network_sec_group_name: "{{ vm_name }}_nsg"
     vm_name: 'eda'
