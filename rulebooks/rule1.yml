@@ -3,7 +3,7 @@
   sources:
     - ansible.eda.azure_service_bus:
         conn_str: "{{conn_str}}"
-        queue_name: "{{queue_name}}"
+        queue_name: "{{queue}}"
   rules:
     - name: print output
       condition: event.output is defined
