@@ -1,17 +1,29 @@
-- name: GitHub Deploy Git Hook Rules
-  hosts: all
+---
+- name: Listen for events on a webhook
+  hosts: localhost
+  ## Define our source for events
   sources:
-    - ansible.eda.azure_service_bus:
-        conn_str: "{{conn_str}}"
-        queue_name: "{{queue}}"
+     - ansible.eda.url_check:
+        urls:
+          - https://www.google.com
+        delay: 10
+
   rules:
-    - name: print output
-      condition: event.output is defined
+    ## Define the conditions we are looking for
+    - name: Web site is up
+      condition: event.url_check.status == "up"
+    ## Define the action we should take should the condition be met
       action:
-        print_event:
-          var_root: output
-    - name: debug
-      enabled: False
-      condition: event.payload is defined
+        run_job_template:
+          name: 'eda - site up'
+          organization: 'Default'
+          filter: '*'
+
+    - name: Web site is down
+      condition: event.url_check.status == "down"
+    ## Define the action we should take should the condition be met
       action:
-        debug:
+        run_job_template:
+          name: 'eda - site down'
+          organization: 'Default'
+          filter: '*'
